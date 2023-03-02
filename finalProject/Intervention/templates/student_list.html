@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f5f5;
+
+        }
+
+        header {
+            background-color: #ffc107;
+            padding: 10px;
+            box-shadow: 0 4px 10px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 30px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            padding: 10px;
+            padding-left: 50px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 10px;
+            padding-right: 30px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
+        nav ul li span a {
+            display: block;
+            padding: 10px;
+            padding-right: 30px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
+        nav ul li span a:hover {
+            color: #000000;
+            transition: ease-out 0.5s;
+        }
+
+        nav ul li a:hover {
+            color: #fff;
+            transition: ease-out 0.5s;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            position: fixed;
+        }
+
+        .content-table {
+            font-family: 'Arial', sans-serif;
+            border-collapse: collapse;
+            top: 60px;
+            margin: 25px 0;
+            width: 80%;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-table thead tr {
+            background-color: #ffc107;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bolder;
+        }
+
+        .content-table th,
+        .content-table td {
+            padding: 15px 24px;
+            margin: auto;
+        }
+
+        .content-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .content-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .content-table tbody tr:last-of-type {
+            border-bottom: 2px solid #ffc107;
+        }
+
+        button {
+            /* Variables */
+            --button_radius: 0.75em;
+            --button_color: #e8e8e8;
+            --button_outline_color: #000000;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--button_radius);
+            background: var(--button_outline_color);
+        }
+
+        .button_top {
+            display: block;
+            box-sizing: border-box;
+            border: 2px solid var(--button_outline_color);
+            border-radius: var(--button_radius);
+            padding: 0.75em 1.5em;
+            background: var(--button_color);
+            color: var(--button_outline_color);
+            transform: translateY(-0.2em);
+            transition: transform 0.1s ease;
+
+        }
+
+        button:hover .button_top {
+            /* Pull the button upwards when hovered */
+            transform: translateY(-0.33em);
+        }
+
+        button:active .button_top {
+            /* Push the button downwards when pressed */
+            transform: translateY(0);
+        }
+    </style>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                {% load static %} <img src="{% static "Intervention/media/logoKPM.png" %}" alt="logo" />
+            </div>
+            <ul>
+                <li><a href>REPORT</a></li>
+                <li><a href>VIEW</a></li>
+                <li><a href=>STUDENT</a></li>
+                <li><span><a href="{% url 'logout' %}">LOG OUT</a></span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <center>
+        <h2>Student Information</h2>
+
+        <form method="get">
+            <label for="student_id">Enter Student ID:</label>
+            <input type="text" id="student_id" name="student_id">
+        </form>
+
+        <br>{{message}}<hr>
+
+        {% if student %}
+        <h2>{{ student.stud_name }}</h2>
+        <p><strong>Student ID:</strong> {{ student.stud_id }}</p>
+        <p><strong>Phone Number:</strong> {{ student.stud_phone }}</p>
+        <p><strong>Course:</strong> {{ student.course }}</p>
+        <p><strong>Mentor:</strong> {{ student.mentor.lect_name }}</p><hr>
+
+        {% if interventions %}
+        <h2>Intervention Reports</h2>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th>Date Reported</th>
+                    <th>Description</th>
+                    <th>Severity Level</th>
+                    <th>Severity Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intervention in interventions %}
+                <tr>
+                    <td>{{ intervention.date_report }}</td>
+                    <td>{{ intervention.description }}</td>
+                    <td>{{ intervention.int_sev_id.sev_level }}</td>
+                    <td>{{ intervention.int_sev_id.sev_desc }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No intervention reports found for this student.</p>
+        {% endif %}
+        {% endif %}
+
+        <br><button onclick="goBack()"><span class="button_top">Back</span></button>
+
+    </center>
+
+    <footer>
+        <p>&copy; 2023 Academic Discipline Intervention Reporting System</p>
+    </footer>
+
+</body>
+
+</html>

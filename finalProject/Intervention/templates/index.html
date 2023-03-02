@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+
+    <style>
+
+        body{
+            background-color: #f2f2f2;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1{
+            color: black;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 38px;
+        }
+        
+        img{
+            display: block;
+            margin: 0 auto;
+            max-width: 270px;
+            padding-top: 20px;
+        }
+
+        #content-box {
+            width: 40%;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        }
+
+        #content-box p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        #content-box img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            margin-top: 30px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bolder;
+        }
+
+        input[type="text"] {
+            background-color: #f2f2f2;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #f5b042;
+            transition: background-color 0.3s ease;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #f5b042;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bolder;
+            transition: background-color 0.3s ease;
+        }
+    
+        button:hover {
+            background-color: #000000;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <p>
+        {% load static %} <img src="{% static "Intervention/media/logoKPM.png" %}" alt="home"/>
+    </p>
+
+    <div id="content-box">
+        <h1>Academic Discipline Intervention Reporting System</h1><hr><br>
+
+        <form action="" method="get">
+            Enter Lecturer ID: <input type="text" name="lect_id">
+            <input type="submit" value="SEARCH">
+        </form>
+    
+    {% if message %}
+        <p>{{ message }}</p>
+    {% elif num_lect == 0 %}
+        <p>Lecturer ID not detected. Please enter a valid ID.</p>
+    {% else %}
+        <p>
+            {% for value in data %}
+                <strong>Lecturer ID</strong> : {{ value.lect_id }} <br>
+                <strong>Lecturer Name</strong> : {{ value.lect_name }} <br>
+                <strong>Email</strong> : {{ value.lect_email }} <br>
+                <strong>Department</strong> : {{ value.department }} <br>
+                {% if value.password == 'null' %}
+                    <strong>Account Status</strong> : Account not registered yet. Please Sign Up first. <br>
+                {% else %}
+                    <strong>Account Status</strong> : Account already registered. Proceed to Log In. <br>
+                {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+    <center>
+    <button>
+        <span class="button_top"><a href = "{% url 'login' %}">Log In</a></span>
+    </button>
+    <button>
+        <span class="button_top"><a href = "{% url 'signup' %}">Sign Up</a></span>
+    </button>
+    </center>
+</body>
+</html>
